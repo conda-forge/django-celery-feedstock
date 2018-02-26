@@ -1,49 +1,52 @@
-{% set version = "3.1.17" %}
+{% set name = "django-celery" %}
+{% set version = "3.2.2" %}
+{% set build = 0 %}
+{% set sha256 = "39db64afc65b33db70c7905c69ec77ddb1ade5bf539c5b0a061dd00316963977" %}
 
 package:
-    name: django-celery
-    version: {{ version }}
+  name: {{ name }}
+  version: {{ version }}
 
 source:
-    fn: django-celery-{{ version }}.tar.gz
-    url: https://pypi.python.org/packages/source/d/django-celery/django-celery-{{ version }}.tar.gz
-    md5: a3abc9674b0680469b0694a254dd7019
+  fn: {{ name }}-{{ version }}.tar.gz
+  url: https://github.com/celery/django-celery/archive/v{{ version }}.tar.gz
+  sha256: {{ sha256 }}
 
 build:
-    number: 1
-    script: python setup.py install --single-version-externally-managed --record=record.txt
+  number: {{ build }}
+  noarch: python
+  script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
-    build:
-        - python
-        - setuptools
-        - celery >=3.1.15,<3.2
-    run:
-        - python
-        - celery >=3.1.15,<3.2
+  build:
+    - python
+    - pip
+    - celery >=3.1.15,<4.0
+  run:
+    - python
+    - celery >=3.1.15,<4.0
 
 test:
-    imports:
-        - djcelery
-        - djcelery.backends
-        - djcelery.contrib
-        - djcelery.management
-        - djcelery.management.commands
-        - djcelery.migrations
-        - djcelery.monproj
-        - djcelery.south_migrations
-        - djcelery.tests
-        - djcelery.tests.test_backends
-    requires:
-        - django >=1.8.4,<1.10
+  imports:
+    - djcelery
+    - djcelery.backends
+    - djcelery.contrib
+    - djcelery.management
+    - djcelery.management.commands
+    - djcelery.migrations
+    - djcelery.monproj
+    - djcelery.tests
+    - djcelery.tests.test_backends
+  requires:
+    - django >=1.8,<2.0
 
 about:
-    home: http://celeryproject.org
-    license: BSD 2-Clause
-    license_file: LICENSE
-    license_family: BSD
-    summary: Old django celery integration project.
+  home: http://celeryproject.org
+  license: BSD 2-Clause
+  license_file: LICENSE
+  license_family: BSD
+  summary: Old django celery integration project.
 
 extra:
-    recipe-maintainers:
-        - kwilcox
+  recipe-maintainers:
+    - kwilcox
